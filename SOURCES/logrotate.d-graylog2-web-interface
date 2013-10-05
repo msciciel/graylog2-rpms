@@ -1,0 +1,7 @@
+/opt/graylog2-web-interface/logs/*.log {
+	daily
+	compress
+	copytruncate
+	missingok
+	notifempty
+}

@@ -1,0 +1,109 @@
+#!/bin/bash
+
+#
+# graylog2-web-interface:   Web interface for the graylog2 message collector
+#
+# chkconfig: - 98 02
+# description:  This daemon provides a front-end web interface for the Graylog2 
+#               message collector
+#
+
+CMD=$1
+NOHUP=`which nohup`
+
+# resolve links - $0 may be a softlink
+GRAYLOG2CTL="$0"
+
+while [ -h "$GRAYLOG2CTL" ]; do
+  ls=`ls -ld "$GRAYLOG2CTL"`
+  link=`expr "$ls" : '.*-> \(.*\)$'`
+  if expr "$link" : '/.*' > /dev/null; then
+    GRAYLOG2CTL="$link"
+  else
+    GRAYLOG2CTL=`dirname "$GRAYLOG2CTL"`/"$link"
+  fi
+done
+
+#####################
+## Any changes to settings make in /etc/sysconfig/graylog2-web-interface
+#####################
+GRAYLOG2CTL_DIR=/opt/graylog2-web-interface-0.20.0-preview.1
+JAVA_CMD=`which java`
+GRAYLOG2_PID="/opt/graylog2-web-interface/RUNNING_PID"
+LOG_FILE=log/graylog2-web-interface.log
+ADDITIONAL_JAVA_OPTS="-XX:ReservedCodeCacheSize=128m"
+
+MIN_MEM=1024m
+MAX_MEM=1024m
+MAX_PERM_SIZE=256m
+#####################
+## End changes
+#####################
+[ -f /etc/sysconfig/graylog2-web-interface ] && . /etc/sysconfig/graylog2-web-interface
+
+DAEMON_OPTS="-Duser.dir=/opt/graylog2-web-interface-0.20.0-preview.1 
+             -cp '/opt/graylog2-web-interface-0.20.0-preview.1/lib/*'"
+
+start() {
+    echo "Starting graylog2-web-interface ..."
+    cd "$GRAYLOG2CTL_DIR/"
+    $NOHUP ${JAVA_CMD} -Xms${MIN_MEM} -Xmx${MAX_MEM} -XX:MaxPermSize=${MAX_PERM_SIZE} ${ADDITIONAL_JAVA_OPTS} -Duser.dir=/opt/graylog2-web-interface -cp '/opt/graylog2-web-interface/lib/*' play.core.server.NettyServer >> ${LOG_FILE} &
+}
+
+stop() {
+    PID=$(get_pid)
+    echo "Stopping graylog2-web-interface ($PID) ..."
+    kill $PID; 
+        
+}
+
+restart() {
+    echo "Restarting graylog2-web-interface ..."
+    stop
+    start
+}
+
+status() {
+    pid=$(get_pid)
+
+    if [[ ! -z ${pid} ]]
+    then
+        if pid_running $pid
+        then
+            echo "graylog2-web-interface running as pid $pid"
+            return 0
+        else
+            echo "graylog2-web-interface not running"
+        fi
+    else
+	echo "graylog2-web-interface not running"
+    fi
+}
+
+get_pid() {
+    pidof=`ps -ef | grep "java.*graylog2-web-interface" | grep -v grep | awk '{print $2}' 2> /dev/null`
+    echo ${pidof}
+    #cat ${GRAYLOG2_PID} 2> /dev/null
+}
+
+pid_running() {
+    kill -0 $1 2> /dev/null
+}
+
+case "$CMD" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    status)
+        status
+        ;;
+    *)
+        echo "Usage $0 {start|stop|restart|status}"
+        RETVAL=1
+esac
