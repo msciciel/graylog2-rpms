@@ -1,4 +1,4 @@
-/opt/graylog2-server/log/*log {
+/var/log/graylog2-server/log/*log {
 	daily
 	compress
 	dateext

@@ -1,6 +1,6 @@
 #GRAYLOG2CTL_DIR=/opt/graylog2-server
 #GRAYLOG2_SERVER_JAR=${GRAYLOG2CTL_DIR}/graylog2-server.jar
-#LOG_FILE=${GRAYLOG2CTL_DIR}/log/graylog2-server.log
+LOG_FILE=/var/log/graylog2-server/graylog2-server.log
 #GRAYLOG2_PID=/var/run/graylog2-server.pid
 #JAVA_CMD=/usr/bin/java
 
