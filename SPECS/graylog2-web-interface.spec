@@ -22,7 +22,7 @@ A front-end web interface for the Graylog2 syslog receiver. This package relies 
 REST interfaces of the graylog2-server package and requires almost no other configuration options. 
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}-%{release}
 
 
 %build

@@ -27,7 +27,7 @@ in MongoDB
 
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}-%{release}
 
 
 %build
