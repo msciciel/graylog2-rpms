@@ -11,7 +11,7 @@ Source1:	init.d-graylog2-web-interface
 Source2:	sysconfig-graylog2-web-interface
 Source3:	logrotate.d-graylog2-server
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
-BuildArch:	noarach
+BuildArch:	noarch
 
 Requires:	chkconfig
 Requires:       jre >= 1.6.0
@@ -47,9 +47,11 @@ rm -rf %{buildroot}
 %{__mkdir} -p %{buildroot}/opt/%{name}/conf
 %{__mkdir} -p %{buildroot}/opt/%{name}/lib
 %{__mkdir} -p %{buildroot}/opt/%{name}/share
+
 %{__install} -p -m 644 conf/* %{buildroot}/opt/%{name}/conf
 %{__install} -p -m 644 lib/*.jar %{buildroot}/opt/%{name}/lib
-%{__install} -p -m 644 share/* %{buildroot}/opt/%{name}/share
+
+cp -pR share/ %{buildroot}/opt/%{name}/
 
 
 %post
