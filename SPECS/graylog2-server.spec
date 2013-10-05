@@ -1,12 +1,12 @@
 Name:		graylog2-server
-Version:	0.20.0-preview.1
-Release:	1%{?dist}
+Version:	0.20.0
+Release:	preview.1
 Summary:	A syslog receiver and processing system
 
 Group:		Monitoring/Logging
 License:	GPL 3.0
 URL:		http://graylog2.org/
-Source0:	https://github.com/Graylog2/%{name}/releases/download/%{version}/%{name}-%{version}.tgz
+Source0:	https://github.com/Graylog2/%{name}/releases/download/%{version}-%{release}/%{name}-%{version}-%{release}.tgz
 Source1:	init.d-graylog2-server
 Source2:	sysconfig-graylog2-server
 Source3:	logrotate.d-graylog2-server
@@ -47,6 +47,7 @@ rm -rf %{buildroot}
 
 # Logs
 %{__mkdir} -p %{buildroot}%{_localstatedir}/log/%{name}
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/logrotate.d
 %{__install} -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
 # Install Root
@@ -77,6 +78,7 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/%{name}/graylog2.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %dir %{_localstatedir}/log/%{name}
+%dir %{_sysconfdir}/logrotate.d
 %{_sysconfdir}/logrotate.d/%{name}
 %{_sysconfdir}/rc.d/init.d/%{name}
 %dir /opt/%{name}
