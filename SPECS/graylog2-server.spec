@@ -11,6 +11,7 @@ Source1:	init.d-graylog2-server
 Source2:	sysconfig-graylog2-server
 Source3:	logrotate.d-graylog2-server
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+BuildArch:	noarch
 
 Requires:	chkconfig
 Requires:	jre >= 1.6.0
