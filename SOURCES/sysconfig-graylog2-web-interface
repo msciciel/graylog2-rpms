@@ -1,13 +1,10 @@
-GRAYLOG2CTL_DIR=/opt/graylog2-web-interface/
-GRAYLOG2_PID=/var/run/graylog2-web-interface.pid
-JAVA_CMD=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.25.x86_64/jre/bin/java
-LOG_FILE=${GRAYLOG2CTL_DIR}/logs/graylog2-web-interface.log
+#GRAYLOG2CTL_DIR=/opt/graylog2-web-interface/
+#GRAYLOG2_PID=/var/run/graylog2-web-interface.pid
+#JAVA_CMD=/usr/bin/java
+LOG_FILE=/var/log/graylog2-web-interface/graylog2-web-interface.log
 
-MIN_MEM=256m
-MAX_MEM=1024m
-MAX_PERM_SIZE=256m
+#MIN_MEM=256m
+#MAX_MEM=1024m
+#MAX_PERM_SIZE=256m
 
-ADDITIONAL_JAVA_OPTS="-XX:ReservedCodeCacheSize=128m
-                      -Dcom.sun.management.jmxremote.port=180
-                      -Dcom.sun.management.jmxremote.ssl=false
-                      -Dcom.sun.management.jmxremote.authenticate=false"
+ADDITIONAL_JAVA_OPTS=""
