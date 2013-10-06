@@ -27,7 +27,7 @@ done
 #####################
 ## Any changes to settings make in /etc/sysconfig/graylog2-web-interface
 #####################
-GRAYLOG2CTL_DIR=/opt/graylog2-web-interface-0.20.0-preview.1
+GRAYLOG2CTL_DIR=/opt/graylog2-web-interface
 JAVA_CMD=`which java`
 GRAYLOG2_PID="/opt/graylog2-web-interface/RUNNING_PID"
 LOG_FILE=log/graylog2-web-interface.log
@@ -40,9 +40,6 @@ MAX_PERM_SIZE=256m
 ## End changes
 #####################
 [ -f /etc/sysconfig/graylog2-web-interface ] && . /etc/sysconfig/graylog2-web-interface
-
-DAEMON_OPTS="-Duser.dir=/opt/graylog2-web-interface-0.20.0-preview.1 
-             -cp '/opt/graylog2-web-interface-0.20.0-preview.1/lib/*'"
 
 start() {
     echo "Starting graylog2-web-interface ..."
