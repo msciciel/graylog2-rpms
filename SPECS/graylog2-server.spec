@@ -56,6 +56,7 @@ rm -rf %{buildroot}
 %{__mkdir} -p %{buildroot}/opt/%{name}/plugin
 
 %{__install} -p -m 644 graylog2-server.jar %{buildroot}/opt/%{name}/
+cp -pR plugin/* %{buildroot}/opt/%{name}/plugin
 
 
 %post
@@ -85,6 +86,7 @@ rm -rf %{buildroot}
 %dir /opt/%{name}
 %dir /opt/%{name}/plugin
 /opt/%{name}/graylog2-server.jar
+/opt/%{name}/plugin/*
 
 
 %changelog
