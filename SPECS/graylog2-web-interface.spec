@@ -1,6 +1,6 @@
 Name:		graylog2-web-interface
 Version:	0.20.0
-Release:	preview.1
+Release:	preview.2
 Summary:	A front-end web interface for the Graylog2 syslog receiver
 
 Group:		Monitoring/Logging
@@ -87,5 +87,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Oct 9 2013 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-preview.2
+- Updating to version 0.20.0-preview.2
+
 * Sat Oct 5 2013 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-preview.1
 - Initial SPEC file
