@@ -46,8 +46,9 @@ rm -rf %{buildroot}
 %{__install} -p -m 755 %{SOURCE1} %{buildroot}%{_sysconfdir}/rc.d/init.d/%{name}
 %{__install} -p -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 
-# Logs
+# Logs and Run
 %{__mkdir} -p %{buildroot}%{_localstatedir}/log/graylog2
+%{__mkdir} -p %{buildroot}%{_localstatedir}/run
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/logrotate.d
 %{__install} -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
@@ -80,6 +81,7 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/graylog2.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %dir %{_localstatedir}/log/graylog2
+%dir %{_localstatedir}/run
 %dir %{_sysconfdir}/logrotate.d
 %{_sysconfdir}/logrotate.d/%{name}
 %{_sysconfdir}/rc.d/init.d/%{name}
