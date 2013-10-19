@@ -9,7 +9,7 @@ URL:		http://graylog2.org/
 Source0:	https://github.com/Graylog2/%{name}/releases/download/%{version}-%{release}/%{name}-%{version}-%{release}.tgz
 Source1:	init.d-graylog2-web-interface
 Source2:	sysconfig-graylog2-web-interface
-Source3:	logrotate.d-graylog2-server
+Source3:	logrotate.d-graylog2
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
@@ -38,7 +38,7 @@ rm -rf %{buildroot}
 %{__install} -p -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 
 # Logs
-%{__mkdir} -p %{buildroot}%{_localstatedir}/log/%{name}
+%{__mkdir} -p %{buildroot}%{_localstatedir}/log/graylog2
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/logrotate.d
 %{__install} -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
@@ -75,7 +75,7 @@ rm -rf %{buildroot}
 %dir %{_sysconfdir}/sysconfig
 %{_sysconfdir}/rc.d/init.d/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
-%dir %{_localstatedir}/log/%{name}
+%dir %{_localstatedir}/log/graylog2
 %dir %{_sysconfdir}/logrotate.d
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %dir /opt/%{name}
