@@ -37,8 +37,8 @@ true
 rm -rf %{buildroot}
 
 # Config
-%{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
-%{__install} -p -m 644 graylog2.conf.example %{buildroot}%{_sysconfdir}/%{name}/graylog2.conf
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/
+%{__install} -p -m 644 graylog2.conf.example %{buildroot}%{_sysconfdir}/graylog2.conf
 
 # Sysconfig and Init
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/rc.d/init.d
@@ -76,8 +76,8 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%dir %{_sysconfdir}/%{name}
-%config(noreplace) %{_sysconfdir}/%{name}/graylog2.conf
+%dir %{_sysconfdir}/
+%config(noreplace) %{_sysconfdir}/graylog2.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %dir %{_localstatedir}/log/graylog2
 %dir %{_sysconfdir}/logrotate.d
