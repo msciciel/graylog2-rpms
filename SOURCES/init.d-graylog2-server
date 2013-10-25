@@ -7,6 +7,7 @@
 # description:  This daemon listens for syslog and GELF messages and stores them in mongodb
 #
 
+CMD=$1
 # resolve links - $0 may be a softlink
 GRAYLOG2CTL="$0"
 
@@ -23,7 +24,6 @@ done
 #####################
 ## Any changes to settings make in /etc/sysconfig/graylog2-server
 #####################
-CMD=$1
 JAVA_CMD=`which java 2>/dev/null`
 
 GRAYLOG2CTL_DIR=`dirname "$GRAYLOG2CTL"`
