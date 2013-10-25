@@ -42,6 +42,14 @@ ADDITIONAL_JAVA_OPTS=""
 
 RETVAL=0
 
+# Make sure that the java exec is found
+ 
+if [[ "" =~ "$JAVA_CMD" || ! -x $JAVA_CMD ]] ; then
+	echo "ERROR: Java not found! Exiting."
+	echo_failure
+	$RETVAL=1
+fi
+
 start() {
     echo -n "Starting graylog2-server ..."
     cd "$GRAYLOG2CTL_DIR/.."
