@@ -7,48 +7,67 @@
 # description:  This daemon listens for syslog and GELF messages and stores them in mongodb
 #
 
-CMD=$1
-NOHUP=`which nohup`
-
 # resolve links - $0 may be a softlink
 GRAYLOG2CTL="$0"
 
 while [ -h "$GRAYLOG2CTL" ]; do
-  ls=`ls -ld "$GRAYLOG2CTL"`
-  link=`expr "$ls" : '.*-> \(.*\)$'`
-  if expr "$link" : '/.*' > /dev/null; then
-    GRAYLOG2CTL="$link"
-  else
-    GRAYLOG2CTL=`dirname "$GRAYLOG2CTL"`/"$link"
-  fi
+    ls=`ls -ld "$GRAYLOG2CTL"`
+    link=`expr "$ls" : '.*-> \(.*\)$'`
+    if expr "$link" : '/.*' > /dev/null; then
+        GRAYLOG2CTL="$link"
+    else
+        GRAYLOG2CTL=`dirname "$GRAYLOG2CTL"`/"$link"
+    fi
 done
 
 #####################
 ## Any changes to settings make in /etc/sysconfig/graylog2-server
 #####################
+CMD=$1
+JAVA_CMD=`which java 2>/dev/null`
+
 GRAYLOG2CTL_DIR=`dirname "$GRAYLOG2CTL"`
 GRAYLOG2_SERVER_JAR=graylog2-server.jar
 GRAYLOG2_CONF=/etc/graylog2.conf
 GRAYLOG2_PID=/tmp/graylog2.pid
-LOG_FILE=log/graylog2-server.log
+GRAYLOG2_USER=root
+LOG_FILE=/var/log/graylog2/graylog2-server.log
 ADDITIONAL_JAVA_OPTS=""
 #####################
 ## End changes
 #####################
+
 [ -f /etc/sysconfig/graylog2-server ] && . /etc/sysconfig/graylog2-server
+[ -f /etc/rc.d/init.d/functions ] && . /etc/rc.d/init.d/functions
+
+RETVAL=0
 
 start() {
-    echo "Starting graylog2-server ..."
+    echo -n "Starting graylog2-server ..."
     cd "$GRAYLOG2CTL_DIR/.."
-    $NOHUP ${JAVA_CMD} ${ADDITIONAL_JAVA_OPTS} -jar ${GRAYLOG2_SERVER_JAR} -f ${GRAYLOG2_CONF} -p ${GRAYLOG2_PID} >> ${LOG_FILE} &
+    su -s /bin/sh ${GRAYLOG2_USER} -c "${JAVA_CMD} ${ADDITIONAL_JAVA_OPTS} -jar ${GRAYLOG2_SERVER_JAR} -f ${GRAYLOG2_CONF} -p ${GRAYLOG2_PID} >> ${LOG_FILE} &"
+    RETVAL=$?
+
+    if [ $RETVAL -eq 0 ]
+    then
+        echo_success
+    else
+        echo_failure
+    fi
+
+    echo
 }
 
 stop() {
     PID=`cat ${GRAYLOG2_PID}`
-    echo "Stopping graylog2-server ($PID) ..."
+    echo -n "Stopping graylog2-server ($PID) ..."
     if kill $PID; then
         rm ${GRAYLOG2_PID}
+        echo_success
+    else
+        echo_failure
     fi
+    echo
 }
 
 restart() {
