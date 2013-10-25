@@ -9,28 +9,29 @@
 #
 
 CMD=$1
-NOHUP=`which nohup`
 
 # resolve links - $0 may be a softlink
 GRAYLOG2CTL="$0"
 
 while [ -h "$GRAYLOG2CTL" ]; do
-  ls=`ls -ld "$GRAYLOG2CTL"`
-  link=`expr "$ls" : '.*-> \(.*\)$'`
-  if expr "$link" : '/.*' > /dev/null; then
-    GRAYLOG2CTL="$link"
-  else
-    GRAYLOG2CTL=`dirname "$GRAYLOG2CTL"`/"$link"
-  fi
+    ls=`ls -ld "$GRAYLOG2CTL"`
+    link=`expr "$ls" : '.*-> \(.*\)$'`
+    if expr "$link" : '/.*' > /dev/null; then
+        GRAYLOG2CTL="$link"
+    else
+        GRAYLOG2CTL=`dirname "$GRAYLOG2CTL"`/"$link"
+    fi
 done
 
 #####################
 ## Any changes to settings make in /etc/sysconfig/graylog2-web-interface
 #####################
+JAVA_CMD=`which java 2> /dev/null`
+
 GRAYLOG2CTL_DIR=/opt/graylog2-web-interface
-JAVA_CMD=`which java`
 GRAYLOG2_PID="/opt/graylog2-web-interface/RUNNING_PID"
-LOG_FILE=log/graylog2-web-interface.log
+GRAYLOG2_USER=root
+LOG_FILE=/var/log/graylog2/graylog2-web-interface.log
 ADDITIONAL_JAVA_OPTS="-XX:ReservedCodeCacheSize=128m"
 
 lib_dir="${GRAYLOG2CTL_DIR}/lib"
@@ -42,18 +43,41 @@ MAX_PERM_SIZE=256m
 ## End changes
 #####################
 [ -f /etc/sysconfig/graylog2-web-interface ] && . /etc/sysconfig/graylog2-web-interface
+[ -f /etc/rc.d/init.d/functions ] && . /etc/rc.d/init.d/functions
+
+RETVAL=0
+
+# Make sure that the java exec is found
+ 
+if [[ "" =~ "$JAVA_CMD" || ! -x $JAVA_CMD ]] ; then
+    echo "ERROR: Java not found! Exiting."
+    exit
+fi
 
 start() {
-    echo "Starting graylog2-web-interface ..."
+    echo -n "Starting graylog2-web-interface ..."
     cd "$GRAYLOG2CTL_DIR/"
-    $NOHUP ${JAVA_CMD} -Xms${MIN_MEM} -Xmx${MAX_MEM} -XX:MaxPermSize=${MAX_PERM_SIZE} ${ADDITIONAL_JAVA_OPTS} -Duser.dir=/opt/graylog2-web-interface -cp "/opt/graylog2-web-interface/lib/*" play.core.server.NettyServer >> ${LOG_FILE} &
+    su -s /bin/sh $GRAYLOG2_USER -c "${JAVA_CMD} -Xms${MIN_MEM} -Xmx${MAX_MEM} -XX:MaxPermSize=${MAX_PERM_SIZE} ${ADDITIONAL_JAVA_OPTS} -Duser.dir=/opt/graylog2-web-interface -cp '/opt/graylog2-web-interface/lib/*' play.core.server.NettyServer >> ${LOG_FILE} &"
+    RETVAL=$?
+
+    if [ $RETVAL -eq 0 ]
+    then
+        echo_success
+    else
+        echo_failure
+    fi
 }
 
 stop() {
-    PID=$(get_pid)
-    echo "Stopping graylog2-web-interface ($PID) ..."
-    kill $PID; 
-        
+    PID=`cat ${GRAYLOG2_PID}`
+    echo -n "Stopping graylog2-web-interface ($PID) ..."
+    if kill $PID; then
+        rm ${GRAYLOG2_PID}
+        echo_success
+    else
+        echo_failure
+    fi
+    echo
 }
 
 restart() {
@@ -64,27 +88,22 @@ restart() {
 
 status() {
     pid=$(get_pid)
-
-    if [[ ! -z ${pid} ]]
-    then
-        if pid_running $pid
-        then
+    if [ ! -z $pid ]; then
+        if pid_running $pid; then
             echo "graylog2-web-interface running as pid $pid"
             return 0
         else
-            echo "graylog2-web-interface not running"
+            echo "Stale pid file with $pid - removing..."
+            rm ${GRAYLOG2_PID}
         fi
-    else
-	echo "graylog2-web-interface not running"
     fi
+ 
+    echo "graylog2-web-interface not running"
 }
-
 get_pid() {
-    pidof=`ps -ef | grep "java.*graylog2-web-interface" | grep -v grep | awk '{print $2}' 2> /dev/null`
-    echo ${pidof}
-    #cat ${GRAYLOG2_PID} 2> /dev/null
+    cat ${GRAYLOG2_PID} 2> /dev/null
 }
-
+ 
 pid_running() {
     kill -0 $1 2> /dev/null
 }
