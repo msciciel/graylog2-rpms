@@ -60,6 +60,20 @@ rm -rf %{buildroot}
 cp -pR plugin/* %{buildroot}/opt/%{name}/plugin
 
 
+%pre
+# Create graylog2 group
+if ! getent group graylog2 > /dev/null 
+then
+	groupadd -r graylog2
+fi
+
+# Create graylog2 user
+if ! getent passwd graylog2 > /dev/null
+then
+	useradd -r -g graylog2 -s /sbin/nologin graylog2
+fi
+
+
 %post
 /sbin/chkconfig --add graylog2-server
 
@@ -68,6 +82,18 @@ cp -pR plugin/* %{buildroot}/opt/%{name}/plugin
 if [ $1 -eq 0 ]; then
   /sbin/service graylog2-server stop >/dev/null 2>&1
   /sbin/chkconfig --del graylog2-server
+fi
+
+# Remove graylog2 user
+if getent passwd graylog2 > /dev/null
+then
+	userdel graylog2
+fi
+
+# Remove graylog2 group
+if getent group graylog2 > /dev/null
+then
+	groupdel graylog2
 fi
 
 
@@ -80,11 +106,12 @@ rm -rf %{buildroot}
 %dir %{_sysconfdir}/
 %config(noreplace) %{_sysconfdir}/graylog2.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
-%dir %{_localstatedir}/log/graylog2
 %dir %{_localstatedir}/run
 %dir %{_sysconfdir}/logrotate.d
 %{_sysconfdir}/logrotate.d/%{name}
 %{_sysconfdir}/rc.d/init.d/%{name}
+%defattr(-,graylog2,graylog2,-)
+%dir %{_localstatedir}/log/graylog2
 %dir /opt/%{name}
 %dir /opt/%{name}/plugin
 /opt/%{name}/graylog2-server.jar
@@ -92,6 +119,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Oct 25 2013 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-preview.4
+- Creating group and passwd entries for graylog2
+- Creating the log directory and install root owned by the new graylog2 user and group
+
 * Tue Oct 22 2013 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-preview.3
 - New upstream version
 
