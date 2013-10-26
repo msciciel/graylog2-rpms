@@ -120,11 +120,9 @@ rm -rf %{buildroot}
 
 %changelog
 * Sat Oct 25 2013 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-preview.4
+- New upstream version
 - Creating group and passwd entries for graylog2
 - Creating the log directory and install root owned by the new graylog2 user and group
-
-* Tue Oct 22 2013 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-preview.3
-- New upstream version
 
 * Wed Oct 16 2013 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-preview.3
 - New upstream version
