@@ -30,7 +30,7 @@ JAVA_CMD=`which java 2> /dev/null`
 
 GRAYLOG2CTL_DIR=/opt/graylog2-web-interface
 GRAYLOG2_PID=/opt/graylog2-web-interface/RUNNING_PID
-GRAYLOG2_USER=root
+GRAYLOG2_USER=graylog2
 LOG_FILE=/var/log/graylog2/graylog2-web-interface.log
 ADDITIONAL_JAVA_OPTS="-XX:ReservedCodeCacheSize=128m"
 

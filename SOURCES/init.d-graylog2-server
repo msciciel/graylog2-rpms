@@ -30,7 +30,7 @@ GRAYLOG2CTL_DIR=`dirname "$GRAYLOG2CTL"`
 GRAYLOG2_SERVER_JAR=graylog2-server.jar
 GRAYLOG2_CONF=/etc/graylog2.conf
 GRAYLOG2_PID=/tmp/graylog2.pid
-GRAYLOG2_USER=root
+GRAYLOG2_USER=graylog2
 LOG_FILE=/var/log/graylog2/graylog2-server.log
 ADDITIONAL_JAVA_OPTS=""
 #####################
