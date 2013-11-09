@@ -53,7 +53,10 @@ fi
 start() {
     echo -n "Starting graylog2-server ..."
     cd "$GRAYLOG2CTL_DIR/.."
-    su -s /bin/sh ${GRAYLOG2_USER} -c "${JAVA_CMD} ${ADDITIONAL_JAVA_OPTS} -jar ${GRAYLOG2_SERVER_JAR} -f ${GRAYLOG2_CONF} -p ${GRAYLOG2_PID} >> ${LOG_FILE} &"
+    su -s /bin/sh ${GRAYLOG2_USER} -c "${JAVA_CMD} ${ADDITIONAL_JAVA_OPTS} -jar \
+                                       ${GRAYLOG2_SERVER_JAR} \
+                                       -f ${GRAYLOG2_CONF} \
+                                       -p ${GRAYLOG2_PID} >> ${LOG_FILE} &"
     RETVAL=$?
 
     if [ $RETVAL -eq 0 ]

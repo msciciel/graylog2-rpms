@@ -61,6 +61,7 @@ start() {
     su -s /bin/sh $GRAYLOG2_USER -c "${JAVA_CMD} -Xms${MIN_MEM} -Xmx${MAX_MEM} \
                                      -XX:MaxPermSize=${MAX_PERM_SIZE} ${ADDITIONAL_JAVA_OPTS} \
                                      -Duser.dir=/opt/graylog2-web-interface \
+                                     -Dpidfile.path=${GRAYLOG2_PID} \
                                      -cp \"$CLASSPATH\" play.core.server.NettyServer >> ${LOG_FILE} &"
     RETVAL=$?
 
