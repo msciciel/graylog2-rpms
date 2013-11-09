@@ -55,20 +55,6 @@ rm -rf %{buildroot}
 cp -pR share/ %{buildroot}/opt/%{name}/
 
 
-%pre
-# Create the graylog2 group
-if ! getent group graylog2 > /dev/null
-then
-	groupadd -r graylog2
-fi
-
-# Create the graylog2 user
-if ! getent passwd graylog2 > /dev/null
-then
-	useradd -r -g graylog2 -s /sbin/nologin graylog2
-fi
-
-
 %post
 /sbin/chkconfig --add graylog2-web-interface
 
@@ -77,18 +63,6 @@ fi
 if [ $1 -eq 0 ]; then
   /sbin/service graylog2-web-interface stop >/dev/null 2>&1
   /sbin/chkconfig --del graylog2-web-interface
-fi
-
-# Remove the graylog2 user
-if getent passwd graylog2 > /dev/null
-then
-	userdel graylog2
-fi
-
-# Remove the graylog2 group
-if getent group graylog2 > /dev/null
-then
-	groupdel graylog2
 fi
 
 
@@ -105,7 +79,6 @@ rm -rf %{buildroot}
 %dir %{_localstatedir}/run
 %dir %{_sysconfdir}/logrotate.d
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
-%defattr(-,graylog2,graylog2,-)
 %dir %{_localstatedir}/log/graylog2
 %dir /opt/%{name}
 %dir /opt/%{name}/lib
