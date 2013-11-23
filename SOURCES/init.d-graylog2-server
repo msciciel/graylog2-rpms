@@ -58,6 +58,7 @@ start() {
                                        -f ${GRAYLOG2_CONF} \
                                        -p ${GRAYLOG2_PID} >> ${LOG_FILE} 2>&1 &"
     RETVAL=$?
+    sleep 5
 
     if [ $RETVAL -eq 0 ]
     then
