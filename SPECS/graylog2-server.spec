@@ -1,6 +1,6 @@
 Name:		graylog2-server
 Version:	0.20.0
-Release:	preview.6
+Release:	preview.7
 Summary:	A syslog receiver and processing system
 
 Group:		Monitoring/Logging
@@ -37,8 +37,8 @@ true
 rm -rf %{buildroot}
 
 # Config
-%{__mkdir} -p %{buildroot}%{_sysconfdir}/
-%{__install} -p -m 644 graylog2.conf.example %{buildroot}%{_sysconfdir}/graylog2.conf
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/graylog2
+%{__install} -p -m 644 graylog2.conf.example %{buildroot}%{_sysconfdir}/graylog2/graylog2.conf
 
 # Sysconfig and Init
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/rc.d/init.d
@@ -76,7 +76,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%dir %{_sysconfdir}/
+%dir %{_sysconfdir}/graylog2
 %config(noreplace) %{_sysconfdir}/graylog2.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %dir %{_localstatedir}/run/graylog2
@@ -91,6 +91,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Nov 30 2013 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-preview.7
+- New preview version
+
 * Sat Nov 23 2013 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-preview.5
 - New preview version
 - Removing management of graylog2 group and passwd entries
