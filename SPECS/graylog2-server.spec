@@ -77,7 +77,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %dir %{_sysconfdir}/graylog2
-%config(noreplace) %{_sysconfdir}/graylog2.conf
+%config(noreplace) %{_sysconfdir}/graylog2/graylog2.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %dir %{_localstatedir}/run/graylog2
 %dir %{_sysconfdir}/logrotate.d
@@ -93,6 +93,7 @@ rm -rf %{buildroot}
 %changelog
 * Sat Nov 30 2013 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-preview.7
 - New preview version
+- Moving the graylog2.conf location from /etc/ to /etc/graylog2/
 
 * Sat Nov 23 2013 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-preview.5
 - New preview version
