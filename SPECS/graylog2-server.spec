@@ -1,6 +1,6 @@
 Name:		graylog2-server
 Version:	0.20.0
-Release:	preview.7
+Release:	preview.8
 Summary:	A syslog receiver and processing system
 
 Group:		Monitoring/Logging
@@ -91,6 +91,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Dec 16 2013 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-preview.8
+- New preview version
+
 * Sat Nov 30 2013 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-preview.7
 - New preview version
 - Moving the graylog2.conf location from /etc/ to /etc/graylog2/
