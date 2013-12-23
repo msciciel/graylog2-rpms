@@ -38,13 +38,15 @@ rm -rf %{buildroot}
 
 # Config
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/graylog2
-%{__install} -p -m 644 graylog2.conf.example %{buildroot}%{_sysconfdir}/graylog2/graylog2.conf
-
-# Sysconfig and Init
-%{__mkdir} -p %{buildroot}%{_sysconfdir}/rc.d/init.d
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/logrotate.d
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/sysconfig
+%{__install} -p graylog2.conf.example %{buildroot}%{_sysconfdir}/graylog2/graylog2.conf
+%{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+%{__install} -p %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+
+# INIT scripts
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/rc.d/init.d
 %{__install} -p -m 755 %{SOURCE1} %{buildroot}%{_sysconfdir}/rc.d/init.d/%{name}
-%{__install} -p -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 
 # Logs and Run
 %{__mkdir} -p %{buildroot}%{_localstatedir}/log/graylog2
@@ -55,7 +57,6 @@ rm -rf %{buildroot}
 # Install Root
 %{__mkdir} -p %{buildroot}/opt/%{name}
 %{__mkdir} -p %{buildroot}/opt/%{name}/plugin
-
 %{__install} -p -m 644 graylog2-server.jar %{buildroot}/opt/%{name}/
 cp -pR plugin/* %{buildroot}/opt/%{name}/plugin
 
@@ -75,19 +76,24 @@ rm -rf %{buildroot}
 
 
 %files
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
+
+# Configurations
 %dir %{_sysconfdir}/graylog2
+%dir %{_sysconfdir}/logrotate.d
 %config(noreplace) %{_sysconfdir}/graylog2/graylog2.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
+%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
+
+# INIT scripts
+%attr(0755,root,root) %{_sysconfdir}/rc.d/init.d/%{name}
+
+# Logs and Run
 %dir %{_localstatedir}/run/graylog2
-%dir %{_sysconfdir}/logrotate.d
-%{_sysconfdir}/logrotate.d/%{name}
-%{_sysconfdir}/rc.d/init.d/%{name}
 %dir %{_localstatedir}/log/graylog2
-%dir /opt/%{name}
-%dir /opt/%{name}/plugin
-/opt/%{name}/graylog2-server.jar
-/opt/%{name}/plugin/*
+
+# Install root
+/opt/%{name}/*
 
 
 %changelog
