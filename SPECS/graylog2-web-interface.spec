@@ -76,7 +76,7 @@ rm -rf %{buildroot}
 # Sysconfig and Init
 %dir %{_sysconfdir}/rc.d/init.d
 %dir %{_sysconfdir}/sysconfig
-%{_sysconfdir}/rc.d/init.d/%{name}
+%attr(0755,root,root) %{_sysconfdir}/rc.d/init.d/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 
 # Logs and Run

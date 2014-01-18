@@ -48,6 +48,7 @@ if [[ "" =~ "$JAVA_CMD" || ! -x $JAVA_CMD ]] ; then
 	echo "ERROR: Java not found! Exiting."
 	echo_failure
 	$RETVAL=1
+	exit 1
 fi
 
 start() {
@@ -58,7 +59,6 @@ start() {
                                        -f ${GRAYLOG2_CONF} \
                                        -p ${GRAYLOG2_PID} >> ${LOG_FILE} 2>&1 &"
     RETVAL=$?
-    sleep 5
 
     if [ $RETVAL -eq 0 ]
     then
@@ -83,8 +83,10 @@ stop() {
 }
 
 restart() {
-    echo "Restarting graylog2-server ..."
     stop
+
+    sleep 5
+
     start
 }
 
