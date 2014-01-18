@@ -57,7 +57,7 @@ start() {
     su -s /bin/sh ${GRAYLOG2_USER} -c "${JAVA_CMD} ${ADDITIONAL_JAVA_OPTS} -jar \
                                        ${GRAYLOG2_SERVER_JAR} \
                                        -f ${GRAYLOG2_CONF} \
-                                       -p ${GRAYLOG2_PID} >> ${LOG_FILE} 2>&1 &"
+                                       -p ${GRAYLOG2_PID} >> ${LOG_FILE} &"
     RETVAL=$?
 
     if [ $RETVAL -eq 0 ]
