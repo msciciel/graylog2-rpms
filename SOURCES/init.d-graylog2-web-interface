@@ -52,7 +52,7 @@ RETVAL=0
  
 if [[ "" =~ "$JAVA_CMD" || ! -x $JAVA_CMD ]] ; then
     echo "ERROR: Java not found! Exiting."
-    exit
+    exit 1
 fi
 
 start() {
@@ -62,7 +62,7 @@ start() {
                                      -XX:MaxPermSize=${MAX_PERM_SIZE} ${ADDITIONAL_JAVA_OPTS} \
                                      -Duser.dir=/opt/graylog2-web-interface \
                                      -Dpidfile.path=${GRAYLOG2_PID} \
-                                     -cp \"$CLASSPATH\" play.core.server.NettyServer >> ${LOG_FILE} 2>&1 &"
+                                     -cp \"$CLASSPATH\" play.core.server.NettyServer &"
     RETVAL=$?
 
     if [ $RETVAL -eq 0 ]
@@ -90,8 +90,10 @@ stop() {
 }
 
 restart() {
-    echo "Restarting graylog2-web-interface ..."
     stop
+
+    sleep 5
+
     start
 }
 

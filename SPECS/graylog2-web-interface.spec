@@ -10,6 +10,7 @@ Source0:	https://github.com/Graylog2/%{name}/releases/download/%{version}-%{rele
 Source1:	init.d-graylog2-web-interface
 Source2:	sysconfig-graylog2-web-interface
 Source3:	logrotate.d-graylog2
+Source4:	log4j-graylog2-web-interface.xml
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
@@ -36,6 +37,10 @@ rm -rf %{buildroot}
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/sysconfig
 %{__install} -p %{SOURCE1} %{buildroot}%{_sysconfdir}/rc.d/init.d/%{name}
 %{__install} -p %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+
+# Configurations
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/graylog2
+%{__install} -p %{SOURCE4} %{buildroot}%{_sysconfdir}/graylog2/log4j-graylog2-web-interface.xml
 
 # Logs and Run
 %{__mkdir} -p %{buildroot}%{_localstatedir}/log/graylog2
@@ -78,6 +83,9 @@ rm -rf %{buildroot}
 %dir %{_sysconfdir}/sysconfig
 %attr(0755,root,root) %{_sysconfdir}/rc.d/init.d/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
+
+# Configurations
+%{_sysconfdir}/graylog2/log4j-graylog2-web-interface.xml
 
 # Logs and Run
 %dir %{_sysconfdir}/logrotate.d
