@@ -9,8 +9,7 @@ URL:		http://graylog2.org/
 Source0:	https://github.com/Graylog2/%{name}/releases/download/%{version}-%{release}/%{name}-%{version}-%{release}.tgz
 Source1:	init.d-graylog2-server
 Source2:	sysconfig-graylog2-server
-Source3:	logrotate.d-graylog2
-Source4:	log4j-graylog2-server.xml
+Source3:	log4j-graylog2-server.xml
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
@@ -39,12 +38,10 @@ rm -rf %{buildroot}
 
 # Config
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/graylog2
-%{__mkdir} -p %{buildroot}%{_sysconfdir}/logrotate.d
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/sysconfig
 %{__install} -p graylog2.conf.example %{buildroot}%{_sysconfdir}/graylog2/graylog2.conf
-%{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 %{__install} -p %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
-%{__install} -p %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/log4j-graylog2-server.xml
+%{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/log4j-graylog2-server.xml
 
 # INIT scripts
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/rc.d/init.d
@@ -53,8 +50,6 @@ rm -rf %{buildroot}
 # Logs and Run
 %{__mkdir} -p %{buildroot}%{_localstatedir}/log/graylog2
 %{__mkdir} -p %{buildroot}%{_localstatedir}/run/graylog2
-%{__mkdir} -p %{buildroot}%{_sysconfdir}/logrotate.d
-%{__install} -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
 # Install Root
 %{__mkdir} -p %{buildroot}/opt/%{name}
@@ -82,11 +77,9 @@ rm -rf %{buildroot}
 
 # Configurations
 %dir %{_sysconfdir}/graylog2
-%dir %{_sysconfdir}/logrotate.d
 %config(noreplace) %{_sysconfdir}/graylog2/graylog2.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
-%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
-%config(noreplace) %{_sysconfdir}/logrotate.d/log4j-graylog2-server.xml
+%config(noreplace) %{_sysconfdir}/graylog2/log4j-graylog2-server.xml
 
 # INIT scripts
 %attr(0755,root,root) %{_sysconfdir}/rc.d/init.d/%{name}

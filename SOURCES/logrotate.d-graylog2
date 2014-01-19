@@ -1,8 +1,0 @@
-/var/log/graylog2/*log {
-	daily
-	compress
-	dateext
-	copytruncate
-	notifempty
-	missingok
-}
