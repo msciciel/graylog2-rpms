@@ -31,7 +31,6 @@ GRAYLOG2_SERVER_JAR=graylog2-server.jar
 GRAYLOG2_CONF=/etc/graylog2/graylog2.conf
 GRAYLOG2_PID=/tmp/graylog2.pid
 GRAYLOG2_USER=root
-LOG_FILE=/dev/null
 ADDITIONAL_JAVA_OPTS=""
 #####################
 ## End changes
