@@ -22,12 +22,15 @@ To build the rpm for your system of choice:
  ln -s ${repo}/SOURCES/* SOURCES/
 </pre>
 * Download all the source files
+<pre>spectool -g SPECS/graylog2-radio.spec </pre>
 <pre>spectool -g SPECS/graylog2-server.spec </pre>
 <pre>spectool -g SPECS/graylog2-web-interface.spec </pre>
 * Build the src rpm
+<pre>rpmbuild -ba SPECS/graylog2-radio.spec </pre>
 <pre>rpmbuild -ba SPECS/graylog2-server.spec </pre>
 <pre>rpmbuild -ba SPECS/graylog2-web-interface.spec </pre>
 ** If you are building for an older system such as el5 you will need to use the old method of hashing
+<pre>rpmbuild-md5 -ba SPECS/graylog2-radio.spec </pre>
 <pre>rpmbuild-md5 -ba SPECS/graylog2-server.spec </pre>
 <pre>rpmbuild-md5 -ba SPECS/graylog2-web-interface.spec </pre>
 * Install into your repo!
