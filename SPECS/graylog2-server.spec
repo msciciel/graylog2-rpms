@@ -7,9 +7,9 @@ Group:		Monitoring/Logging
 License:	GPL 3.0
 URL:		http://graylog2.org/
 Source0:	https://github.com/Graylog2/%{name}/releases/download/%{version}-%{release}/%{name}-%{version}-%{release}-1.tgz
-Source1:	init.d-graylog2-server
-Source2:	sysconfig-graylog2-server
-Source3:	log4j-graylog2-server.xml
+Source1:	init.d-%{name}
+Source2:	sysconfig-%{name}
+Source3:	log4j-%{name}.xml
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
@@ -41,7 +41,7 @@ rm -rf %{buildroot}
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/sysconfig
 %{__install} -p graylog2.conf.example %{buildroot}%{_sysconfdir}/graylog2/graylog2.conf
 %{__install} -p %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
-%{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/graylog2/log4j-graylog2-server.xml
+%{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/graylog2/log4j-%{name}.xml
 
 # INIT scripts
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/rc.d/init.d
@@ -79,7 +79,7 @@ rm -rf %{buildroot}
 %dir %{_sysconfdir}/graylog2
 %config(noreplace) %{_sysconfdir}/graylog2/graylog2.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
-%config(noreplace) %{_sysconfdir}/graylog2/log4j-graylog2-server.xml
+%config(noreplace) %{_sysconfdir}/graylog2/log4j-%{name}.xml
 
 # INIT scripts
 %attr(0755,root,root) %{_sysconfdir}/rc.d/init.d/%{name}

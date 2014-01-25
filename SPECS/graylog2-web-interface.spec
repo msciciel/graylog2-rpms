@@ -7,9 +7,9 @@ Group:		Monitoring/Logging
 License:	GPL 3.0
 URL:		http://graylog2.org/
 Source0:	https://github.com/Graylog2/%{name}/releases/download/%{version}-%{release}/%{name}-%{version}-%{release}-1.tgz
-Source1:	init.d-graylog2-web-interface
-Source2:	sysconfig-graylog2-web-interface
-Source3:	log4j-graylog2-web-interface.xml
+Source1:	init.d-%{name}
+Source2:	sysconfig-%{name}
+Source3:	log4j-%{name}.xml
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
@@ -39,7 +39,7 @@ rm -rf %{buildroot}
 
 # Configurations
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/graylog2
-%{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/graylog2/log4j-graylog2-web-interface.xml
+%{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/graylog2/log4j-%{name}.xml
 
 # Logs and Run
 %{__mkdir} -p %{buildroot}%{_localstatedir}/log/graylog2
@@ -82,7 +82,7 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 
 # Configurations
-%config(noreplace) %{_sysconfdir}/graylog2/log4j-graylog2-web-interface.xml
+%config(noreplace) %{_sysconfdir}/graylog2/log4j-%{name}.xml
 
 # Logs and Run
 %dir %{_localstatedir}/run/graylog2
