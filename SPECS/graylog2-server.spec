@@ -1,12 +1,12 @@
 Name:		graylog2-server
 Version:	0.20.0
-Release:	rc.1-1
+Release:	rc.1
 Summary:	A syslog receiver and processing system
 
 Group:		Monitoring/Logging
 License:	GPL 3.0
 URL:		http://graylog2.org/
-Source0:	https://github.com/Graylog2/%{name}/releases/download/%{version}-%{release}/%{name}-%{version}-%{release}.tgz
+Source0:	https://github.com/Graylog2/%{name}/releases/download/%{version}-%{release}/%{name}-%{version}-%{release}-1.tgz
 Source1:	init.d-graylog2-server
 Source2:	sysconfig-graylog2-server
 Source3:	log4j-graylog2-server.xml
@@ -27,7 +27,7 @@ in MongoDB
 
 
 %prep
-%setup -q -n %{name}-%{version}-%{release}
+%setup -q -n %{name}-%{version}-%{release}-1
 
 
 %build
@@ -41,7 +41,7 @@ rm -rf %{buildroot}
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/sysconfig
 %{__install} -p graylog2.conf.example %{buildroot}%{_sysconfdir}/graylog2/graylog2.conf
 %{__install} -p %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
-%{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/log4j-graylog2-server.xml
+%{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/graylog2/log4j-graylog2-server.xml
 
 # INIT scripts
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/rc.d/init.d
@@ -93,9 +93,6 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Sat Jan 25 2014 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-rc.1-1
-- New Release Candidate interim update
-
 * Sat Jan 18 2014 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-rc.1
 - New Release Candidate version
 

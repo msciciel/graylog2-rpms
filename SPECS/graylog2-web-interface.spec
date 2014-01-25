@@ -1,12 +1,12 @@
 Name:		graylog2-web-interface
 Version:	0.20.0
-Release:	rc.1-1
+Release:	rc.1
 Summary:	A front-end web interface for the Graylog2 syslog receiver
 
 Group:		Monitoring/Logging
 License:	GPL 3.0
 URL:		http://graylog2.org/
-Source0:	https://github.com/Graylog2/%{name}/releases/download/%{version}-%{release}/%{name}-%{version}-%{release}.tgz
+Source0:	https://github.com/Graylog2/%{name}/releases/download/%{version}-%{release}/%{name}-%{version}-%{release}-1.tgz
 Source1:	init.d-graylog2-web-interface
 Source2:	sysconfig-graylog2-web-interface
 Source3:	log4j-graylog2-web-interface.xml
@@ -22,7 +22,7 @@ A front-end web interface for the Graylog2 syslog receiver. This package relies 
 REST interfaces of the graylog2-server package and requires almost no other configuration options. 
 
 %prep
-%setup -q -n %{name}-%{version}-%{release}
+%setup -q -n %{name}-%{version}-%{release}-1
 
 
 %build
@@ -98,9 +98,6 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Sat Jan 25 2014 Corey Hammerotn <corey.hammerton@gmail.com> 0.20.0-rc.1-1
-- New Release Candidate Interim update
-
 * Sat Jan 18 2014 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-rc.1
 - New Release Candidate version
 
