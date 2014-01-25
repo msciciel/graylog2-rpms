@@ -56,9 +56,7 @@ rm -rf %{buildroot}
 
 # Install Root
 %{__mkdir} -p %{buildroot}/opt/%{name}
-%{__mkdir} -p %{buildroot}/opt/%{name}/plugin
 %{__install} -p -m 644 graylog2-radio.jar %{buildroot}/opt/%{name}/
-cp -pR plugin/* %{buildroot}/opt/%{name}/plugin
 
 
 %post
