@@ -3,8 +3,8 @@ graylog2-rpms
 
 An easy way to install the graylog2-server and graylog2-web-interface packages on Fedora/RHEL based systems
 
-These RPM SPEC files were built to provide an easy way to install the graylog2-server and graylog2-web-interface
-packages in a systemic way.
+These RPM SPEC files were built to provide an easy way to install the graylog2-radio, graylog2-server, and
+graylog2-web-interface packages in a systemic way.
 
 These packages are made for version 0.20.0-preview.1 and higher of both packages, these SPEC files WILL NOT WORK with previous versions
 
