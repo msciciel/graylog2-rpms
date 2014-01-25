@@ -1,0 +1,7 @@
+RADIOCTL_DIR=/opt/graylog2-radio
+RADIO_JAR=${RADIOCTL_DIR}/graylog2-radio.jar
+GRAYLOG2_PID=/var/run/graylog2/radio.pid
+#JAVA_CMD=/usr/bin/java
+
+ADDITIONAL_JAVA_OPTS="-Dlog4j.configuration=file:///etc/graylog2/log4j-graylog2-radio.xml"
+

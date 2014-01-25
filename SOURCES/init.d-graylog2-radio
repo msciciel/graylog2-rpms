@@ -1,0 +1,122 @@
+#!/bin/bash
+
+#
+# graylog2-radio:   graylog2 message receiver and processor
+#
+# chkconfig: 345 98 02
+# description:  This daemon processes messages in front of a graylog2-server cluster
+#
+
+CMD=$1
+# resolve links - $0 may be a softlink
+RADIOCTL="$0"
+
+while [ -h "$RADIOCTL" ]; do
+  ls=`ls -ld "$RADIOCTL"`
+  link=`expr "$ls" : '.*-> \(.*\)$'`
+  if expr "$link" : '/.*' > /dev/null; then
+    RADIOCTL="$link"
+  else
+    RADIOCTL=`dirname "$RADIOCTL"`/"$link"
+  fi
+done
+
+#####################
+## Any changes to settings make in /etc/sysconfig/graylog2-server
+#####################
+JAVA_CMD=`which java 2>/dev/null`
+
+RADIOCTL_DIR=`dirname "$RADIOCTL"`
+RADIO_JAR=graylog2-radio.jar
+RADIO_CONF=/etc/graylog2-radio.conf
+RADIO_PID=/tmp/graylog2-radio.pid
+RADIO_USER=root
+ADDITIONAL_JAVA_OPTS=""
+#####################
+## End changes
+#####################
+
+[ -f /etc/sysconfig/graylog2-radio ] && . /etc/sysconfig/graylog2-radio
+[ -f /etc/rc.d/init.d/functions ] && . /etc/rc.d/init.d/functions
+
+RETVAL=0
+
+start() {
+    echo "Starting graylog2-radio ..."
+    cd "$RADIOCTL_DIR/.."
+    su -s /bin/bash ${RADIO_USER} -c "${JAVA_CMD} ${ADDITIONAL_JAVA_OPTS} -jar \
+                                      ${RADIO_JAR} \
+                                      -f ${RADIO_CONF} \
+                                      -p ${RADIO_PID} >> /dev/null 2>&1 &"
+    RETVAL=$?
+
+    if [ $RETVAL -eq 0 ]
+    then
+        echo_success
+    else
+        echo_failure
+    fi
+
+    echo
+}
+
+stop() {
+    PID=`cat ${RADIO_PID}`
+    echo -n "Stopping graylog2-radio ($PID) ..."
+    if kill $PID; then
+        rm ${RADIO_PID}
+        echo_success
+    else
+	echo_failure
+    fi
+    echo
+}
+
+restart() {
+    stop
+
+    sleep 5
+
+    start
+}
+
+status() {
+    pid=$(get_pid)
+    if [ ! -z $pid ]; then
+        if pid_running $pid; then
+            echo "graylog2-radio running as pid $pid"
+            return 0
+        else
+            echo "Stale pid file with $pid - removing..."
+            rm ${RADIO_PID}
+        fi
+    fi
+
+    echo "graylog2-radio not running"
+}
+
+get_pid() {
+    cat ${RADIO_PID} 2> /dev/null
+}
+
+pid_running() {
+    kill -0 $1 2> /dev/null
+}
+
+case "$CMD" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    status)
+        status
+        ;;
+    *)
+        echo "Usage $0 {start|stop|restart|status}"
+        RETVAL=1
+esac
