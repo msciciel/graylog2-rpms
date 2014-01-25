@@ -1,6 +1,6 @@
 Name:		graylog2-server
 Version:	0.20.0
-Release:	rc.1
+Release:	rc.1-1
 Summary:	A syslog receiver and processing system
 
 Group:		Monitoring/Logging
@@ -93,6 +93,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Jan 25 2014 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-rc.1-1
+- New Release Candidate interim update
+
 * Sat Jan 18 2014 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-rc.1
 - New Release Candidate version
 
