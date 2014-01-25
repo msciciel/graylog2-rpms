@@ -31,7 +31,7 @@ GRAYLOG2_SERVER_JAR=graylog2-server.jar
 GRAYLOG2_CONF=/etc/graylog2/graylog2.conf
 GRAYLOG2_PID=/tmp/graylog2.pid
 GRAYLOG2_USER=root
-LOG_FILE=/var/log/graylog2/graylog2-server.log
+LOG_FILE=/dev/null
 ADDITIONAL_JAVA_OPTS=""
 #####################
 ## End changes
@@ -57,7 +57,7 @@ start() {
     su -s /bin/sh ${GRAYLOG2_USER} -c "${JAVA_CMD} ${ADDITIONAL_JAVA_OPTS} -jar \
                                        ${GRAYLOG2_SERVER_JAR} \
                                        -f ${GRAYLOG2_CONF} \
-                                       -p ${GRAYLOG2_PID} >> ${LOG_FILE} &"
+                                       -p ${GRAYLOG2_PID} >> /dev/null 2>&1 &"
     RETVAL=$?
 
     if [ $RETVAL -eq 0 ]
