@@ -38,8 +38,8 @@ rm -rf %{buildroot}
 %{__install} -p %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 
 # Configurations
-%{__mkdir} -p %{buildroot}%{_sysconfdir}/graylog2
-%{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/graylog2/log4j-%{name}.xml
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/graylog2/web-interface
+%{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/graylog2/web-interface/log4j.xml
 
 # Logs and Run
 %{__mkdir} -p %{buildroot}%{_localstatedir}/log/graylog2
@@ -82,7 +82,7 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 
 # Configurations
-%config(noreplace) %{_sysconfdir}/graylog2/log4j-%{name}.xml
+%config(noreplace) %{_sysconfdir}/graylog2/web-interface/log4j.xml
 
 # Logs and Run
 %dir %{_localstatedir}/run/graylog2
