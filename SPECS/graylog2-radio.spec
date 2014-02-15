@@ -1,6 +1,6 @@
 Name:		graylog2-radio
 Version:	0.20.0
-Release:	rc.3
+Release:	rc.1
 Summary:	A message receiver front-end to expand on a graylog2 network.
 
 Group:		Monitoring/Logging
@@ -40,11 +40,11 @@ true
 rm -rf %{buildroot}
 
 # Config
-%{__mkdir} -p %{buildroot}%{_sysconfdir}/graylog2
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/graylog2/radio
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/sysconfig
-%{__install} -p graylog2-radio.conf.example %{buildroot}%{_sysconfdir}/graylog2/radio.conf
+%{__install} -p graylog2-radio.conf.example %{buildroot}%{_sysconfdir}/graylog2/radio/radio.conf
+%{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/graylog2/radio/log4j.xml
 %{__install} -p %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
-%{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/graylog2/log4j-%{name}.xml
 
 # INIT scripts
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/rc.d/init.d
@@ -77,10 +77,8 @@ rm -rf %{buildroot}
 %defattr(0644,root,root,0644)
 
 # Configurations
-%dir %{_sysconfdir}/graylog2
-%config(noreplace) %{_sysconfdir}/graylog2/radio.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
-%config(noreplace) %{_sysconfdir}/graylog2/log4j-%{name}.xml
+%config(noreplace) %{_sysconfdir}/graylog2/radio/*
 
 # INIT scripts
 %attr(0755,root,root) %{_sysconfdir}/rc.d/init.d/%{name}
