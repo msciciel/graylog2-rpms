@@ -1,6 +1,6 @@
 Name:		graylog2-radio
 Version:	0.20.0
-Release:	rc.1
+Release:	rc.3
 Summary:	A message receiver front-end to expand on a graylog2 network.
 
 Group:		Monitoring/Logging
