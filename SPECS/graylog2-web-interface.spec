@@ -98,8 +98,8 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Sat Feb 15 2014 Corey Hammerton <corey.hammeton@gmail.com> 0.20.0-rc.1
-- New Release Candidate version
+* Sat Feb 15 2014 Corey Hammerton <corey.hammeton@gmail.com> 0.20.0-rc.3
+- See https://github.com/Graylog2/graylog2-web-interface/commits/play for full changelog
 
 * Sat Jan 18 2014 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-rc.1
 - New Release Candidate version
