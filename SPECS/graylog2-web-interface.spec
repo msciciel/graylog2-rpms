@@ -40,6 +40,7 @@ rm -rf %{buildroot}
 # Configurations
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/graylog2/web-interface
 %{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/graylog2/web-interface/log4j.xml
+%{__install} -p conf/* %{buildroot}%{_sysconfdir}/graylog2/web-interface
 
 # Logs and Run
 %{__mkdir} -p %{buildroot}%{_localstatedir}/log/graylog2
@@ -51,7 +52,6 @@ rm -rf %{buildroot}
 %{__mkdir} -p %{buildroot}/opt/%{name}/lib
 %{__mkdir} -p %{buildroot}/opt/%{name}/share
 
-%{__install} -p conf/* %{buildroot}/opt/%{name}/conf
 %{__install} -p lib/*.jar %{buildroot}/opt/%{name}/lib
 
 cp -pR share/ %{buildroot}/opt/%{name}/
@@ -82,19 +82,14 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 
 # Configurations
-%config(noreplace) %{_sysconfdir}/graylog2/web-interface/log4j.xml
+%config(noreplace) %{_sysconfdir}/graylog2/web-interface/*
 
 # Logs and Run
 %dir %{_localstatedir}/run/graylog2
 %dir %{_localstatedir}/log/graylog2
 
 # Install Root
-%dir /opt/%{name}
-%dir /opt/%{name}/lib
-%dir /opt/%{name}/share
-%config(noreplace) /opt/%{name}/conf/*
-/opt/%{name}/lib/*
-/opt/%{name}/share/*
+/opt/%{name}/*
 
 
 %changelog

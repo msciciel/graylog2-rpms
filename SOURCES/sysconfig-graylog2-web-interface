@@ -9,4 +9,5 @@ CLASSPATH="${lib_dir}/*"
 #MAX_MEM=1024m
 #MAX_PERM_SIZE=256m
 
-ADDITIONAL_JAVA_OPTS="-Dlogger.file=/etc/graylog2/web-interface/log4j.xml"
+ADDITIONAL_JAVA_OPTS="-Dlogger.file=/etc/graylog2/web-interface/log4j.xml \
+                      -Dconfig.file=/etc/graylog2/web-interface/graylog2-web-interface.conf"
