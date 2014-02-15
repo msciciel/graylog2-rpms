@@ -37,11 +37,11 @@ true
 rm -rf %{buildroot}
 
 # Config
-%{__mkdir} -p %{buildroot}%{_sysconfdir}/graylog2
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/graylog2/server
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/sysconfig
-%{__install} -p graylog2.conf.example %{buildroot}%{_sysconfdir}/graylog2/graylog2.conf
+%{__install} -p graylog2.conf.example %{buildroot}%{_sysconfdir}/graylog2/server/graylog2.conf
+%{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/graylog2/server/log4j.xml
 %{__install} -p %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
-%{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/graylog2/log4j-%{name}.xml
 
 # INIT scripts
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/rc.d/init.d
@@ -76,10 +76,8 @@ rm -rf %{buildroot}
 %defattr(0644,root,root,0644)
 
 # Configurations
-%dir %{_sysconfdir}/graylog2
-%config(noreplace) %{_sysconfdir}/graylog2/graylog2.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
-%config(noreplace) %{_sysconfdir}/graylog2/log4j-%{name}.xml
+%config(noreplace) %{_sysconfdir}/graylog2/server/*
 
 # INIT scripts
 %attr(0755,root,root) %{_sysconfdir}/rc.d/init.d/%{name}
