@@ -104,6 +104,24 @@ status() {
     echo "graylog2-server not running"
 }
 
+configtest() {
+    echo -n "Validating graylog2-server configuration..."
+
+    ${JAVA_CMD} -jar ${GRAYLOG2_SERVER_JAR} \
+        -f ${GRAYLOG2_CONF} \
+        --configtest
+    RETVAL=$?
+
+    if [ $RETVAL -eq 0 ]
+    then
+        echo_success
+    else
+        echo_failure
+    fi
+
+    echo
+}
+
 get_pid() {
     cat ${GRAYLOG2_PID} 2> /dev/null
 }
@@ -125,7 +143,10 @@ case "$CMD" in
     status)
         status
         ;;
+    configtest)
+        configtest
+        ;;
     *)
-        echo "Usage $0 {start|stop|restart|status}"
+        echo "Usage $0 {start|stop|restart|status|configtest}"
         RETVAL=1
 esac
