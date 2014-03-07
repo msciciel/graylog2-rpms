@@ -102,6 +102,7 @@ status() {
     fi
 
     echo "graylog2-server not running"
+    return 3
 }
 
 get_pid() {
