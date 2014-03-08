@@ -14,6 +14,7 @@ BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
 Requires:	chkconfig
+Requires:	libxml2
 Requires:       jre >= 1.6.0
 
 %description

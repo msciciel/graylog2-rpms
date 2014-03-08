@@ -27,10 +27,12 @@ done
 ## Any changes to settings make in /etc/sysconfig/graylog2-web-interface
 #####################
 JAVA_CMD=`which java 2> /dev/null`
+XMLLINT_CMD=`which xmllint 2>/dev/null`
 
 GRAYLOG2CTL_DIR=/opt/graylog2-web-interface
 GRAYLOG2_PID=/opt/graylog2-web-interface/RUNNING_PID
 GRAYLOG2_USER=root
+GRAYLOG2_LOG_CONF=/etc/graylog2/web-interface/log4j.xml
 ADDITIONAL_JAVA_OPTS="-XX:ReservedCodeCacheSize=128m"
 
 lib_dir="${GRAYLOG2CTL_DIR}/lib"
@@ -57,6 +59,12 @@ fi
 start() {
     echo -n "Starting graylog2-web-interface ..."
     cd "$GRAYLOG2CTL_DIR/"
+
+    if [[ -f ${GRAYLOG2_LOG_CONF} ]]
+    then
+        ADDITIONAL_JAVA_OPTS="${ADDITIONAL_JAVA_OPTS} -Dlogger.file=${GRAYLOG2_LOG_CONF}"
+    fi
+
     su -s /bin/sh $GRAYLOG2_USER -c "${JAVA_CMD} -Xms${MIN_MEM} -Xmx${MAX_MEM} \
                                      -XX:MaxPermSize=${MAX_PERM_SIZE} ${ADDITIONAL_JAVA_OPTS} \
                                      -Duser.dir=/opt/graylog2-web-interface \
@@ -111,6 +119,34 @@ status() {
     echo "graylog2-web-interface not running"
     return 3
 }
+
+configtest() {
+    echo -n "Validating graylog2-web-interface configuration..."
+
+    if [[ ! -f ${GRAYLOG2_LOG_CONF} ]]
+    then
+        echo
+        echo "Logging configuration file set but file doesn't exist, exiting... "
+        echo_failure
+        echo 
+        exit 1
+    fi
+
+    xmllint --noout ${GRAYLOG2_LOG_CONF} >> /dev/null 2>&1
+    if [[ $? -ne 0 ]]
+    then
+        echo
+        echo "Syntax errors detected in ${GRAYLOG2_LOG_CONF}, run 'xmllint' to debug"
+        echo_failure
+        echo
+        exit 2
+    fi
+
+    echo_success
+
+    echo
+}
+
 get_pid() {
     cat ${GRAYLOG2_PID} 2> /dev/null
 }
@@ -132,7 +168,10 @@ case "$CMD" in
     status)
         status
         ;;
+    configtest)
+        configtest
+        ;;
     *)
-        echo "Usage $0 {start|stop|restart|status}"
+        echo "Usage $0 {start|stop|restart|status|configtest}"
         RETVAL=1
 esac
