@@ -25,12 +25,14 @@ done
 ## Any changes to settings make in /etc/sysconfig/graylog2-server
 #####################
 JAVA_CMD=`which java 2>/dev/null`
+XMLLINT_CMD=`which xmllint 2>/dev/null`
 
 RADIOCTL_DIR=`dirname "$RADIOCTL"`
 RADIO_JAR=graylog2-radio.jar
 RADIO_CONF=/etc/graylog2-radio.conf
 RADIO_PID=/tmp/graylog2-radio.pid
 RADIO_USER=root
+RADIO_LOG_CONF=/etc/graylog2/radio/log4j.xml
 ADDITIONAL_JAVA_OPTS=""
 #####################
 ## End changes
@@ -44,6 +46,12 @@ RETVAL=0
 start() {
     echo "Starting graylog2-radio ..."
     cd "$RADIOCTL_DIR/.."
+
+    if [[ -f ${RADIO_LOG_CONF} ]]
+    then
+        ADDITIONAL_JAVA_OPTS="${ADDITIONAL_JAVA_OPTS} -Dlog4j.configuration=file://${RADIO_LOG_CONF}"
+    fi
+
     su -s /bin/bash ${RADIO_USER} -c "${JAVA_CMD} ${ADDITIONAL_JAVA_OPTS} -jar \
                                       ${RADIO_JAR} \
                                       -f ${RADIO_CONF} \
@@ -96,6 +104,33 @@ status() {
     return 3
 }
 
+configtest() {
+    echo -n "Validating graylog2-web-interface configuration..."
+
+    if [[ ! -f ${RADIO_LOG_CONF} ]]
+    then
+        echo
+        echo "Logging configuration file set but file doesn't exist, exiting... "
+        echo_failure
+        echo 
+        exit 1
+    fi
+
+    xmllint --noout ${RADIO_LOG_CONF} >> /dev/null 2>&1
+    if [[ $? -ne 0 ]]
+    then
+        echo
+        echo "Syntax errors detected in ${RADIO_LOG_CONF}, run 'xmllint' to debug"
+        echo_failure
+        echo
+        exit 2
+    fi
+
+    echo_success
+
+    echo
+}
+
 get_pid() {
     cat ${RADIO_PID} 2> /dev/null
 }
@@ -117,7 +152,10 @@ case "$CMD" in
     status)
         status
         ;;
+    configtest)
+        configtest
+        ;;
     *)
-        echo "Usage $0 {start|stop|restart|status}"
+        echo "Usage $0 {start|stop|restart|status|configtest}"
         RETVAL=1
 esac
