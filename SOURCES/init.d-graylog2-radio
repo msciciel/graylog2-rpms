@@ -93,6 +93,7 @@ status() {
     fi
 
     echo "graylog2-radio not running"
+    return 3
 }
 
 get_pid() {

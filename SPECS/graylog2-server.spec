@@ -1,12 +1,12 @@
 Name:		graylog2-server
-Version:	0.20.0
-Release:	rc.3
+Version:	0.20.1
+Release:	1
 Summary:	A syslog receiver and processing system
 
 Group:		Monitoring/Logging
 License:	GPL 3.0
 URL:		http://graylog2.org/
-Source0:	https://github.com/Graylog2/%{name}/releases/download/%{version}-%{release}/%{name}-%{version}-%{release}.tgz
+Source0:	https://github.com/Graylog2/%{name}/releases/download/%{version}/%{name}-%{version}.tgz
 Source1:	init.d-%{name}
 Source2:	sysconfig-%{name}
 Source3:	log4j-%{name}.xml
@@ -27,7 +27,7 @@ in MongoDB
 
 
 %prep
-%setup -q -n %{name}-%{version}-%{release}
+%setup -q -n %{name}-%{version}
 
 
 %build

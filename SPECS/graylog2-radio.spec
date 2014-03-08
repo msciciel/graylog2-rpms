@@ -1,12 +1,12 @@
 Name:		graylog2-radio
 Version:	0.20.0
-Release:	rc.1
+Release:	1
 Summary:	A message receiver front-end to expand on a graylog2 network.
 
 Group:		Monitoring/Logging
 License:	GPL 3.0
 URL:		http://graylog2.org/
-Source0:	https://github.com/Graylog2/graylog2-server/releases/download/%{version}-%{release}/%{name}-%{version}-%{release}.tgz
+Source0:	https://github.com/Graylog2/graylog2-server/releases/download/%{version}/%{name}-%{version}.tgz
 Source1:	init.d-%{name}
 Source2:	sysconfig-%{name}
 Source3:	log4j-%{name}.xml
@@ -30,7 +30,7 @@ reduce the load on your graylog2-server node(s)
 
 
 %prep
-%setup -q -n %{name}-%{version}-%{release}
+%setup -q -n %{name}-%{version}
 
 
 %build

@@ -109,6 +109,7 @@ status() {
     fi
  
     echo "graylog2-web-interface not running"
+    return 3
 }
 get_pid() {
     cat ${GRAYLOG2_PID} 2> /dev/null
