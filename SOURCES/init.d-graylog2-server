@@ -25,12 +25,14 @@ done
 ## Any changes to settings make in /etc/sysconfig/graylog2-server
 #####################
 JAVA_CMD=`which java 2>/dev/null`
+XMLLINT_CMD=`which xmllint 2>/dev/null`
 
 GRAYLOG2CTL_DIR=`dirname "$GRAYLOG2CTL"`
 GRAYLOG2_SERVER_JAR=graylog2-server.jar
 GRAYLOG2_CONF=/etc/graylog2/graylog2.conf
 GRAYLOG2_PID=/tmp/graylog2.pid
 GRAYLOG2_USER=root
+GRAYLOG2_LOG_CONF=/etc/graylog2/server/log4j.xml
 ADDITIONAL_JAVA_OPTS=""
 #####################
 ## End changes
@@ -53,6 +55,12 @@ fi
 start() {
     echo -n "Starting graylog2-server ..."
     cd "$GRAYLOG2CTL_DIR/.."
+
+    if [[ -f ${GRAYLOG2_LOG_CONF} ]]
+    then
+        ADDITIONAL_JAVA_OPTS="${ADDITIONAL_JAVA_OPTS} -Dlog4j.configuration=file://${GRAYLOG2_LOG_CONF}"
+    fi
+
     su -s /bin/sh ${GRAYLOG2_USER} -c "${JAVA_CMD} ${ADDITIONAL_JAVA_OPTS} -jar \
                                        ${GRAYLOG2_SERVER_JAR} \
                                        -f ${GRAYLOG2_CONF} \
@@ -108,12 +116,32 @@ status() {
 configtest() {
     echo -n "Validating graylog2-server configuration..."
 
-    ${JAVA_CMD} -jar ${GRAYLOG2_SERVER_JAR} \
+    if [[ ! -f ${GRAYLOG2_LOG_CONF} ]]
+    then
+        echo
+        echo "Logging configuration file set but file doesn't exist, exiting... "
+        echo_failure
+        echo 
+        exit 1
+    fi
+
+    xmllint --noout ${GRAYLOG2_LOG_CONF} >> /dev/null 2>&1
+    if [[ $? -ne 0 ]]
+    then
+        echo
+        echo "Syntax errors detected in ${GRAYLOG2_LOG_CONF}, run 'xmllint' to debug"
+        echo_failure
+        echo
+        exit 2
+    fi
+
+    java_opts="-Dlog4j.configuration=file://${GRAYLOG2_LOG_CONF}"
+    ${JAVA_CMD} ${java_opts} \
+        -jar ${GRAYLOG2_SERVER_JAR} \
         -f ${GRAYLOG2_CONF} \
         --configtest
-    RETVAL=$?
 
-    if [ $RETVAL -eq 0 ]
+    if [ $? -eq 0 ]
     then
         echo_success
     else
