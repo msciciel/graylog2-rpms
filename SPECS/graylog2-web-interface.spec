@@ -1,5 +1,5 @@
 Name:		graylog2-web-interface
-Version:	0.20.0
+Version:	0.20.1
 Release:	1
 Summary:	A front-end web interface for the Graylog2 syslog receiver
 
