@@ -78,14 +78,21 @@ start() {
 }
 
 stop() {
-    PID=`cat ${GRAYLOG2_PID}`
-    echo -n "Stopping graylog2-server ($PID) ..."
-    if kill $PID; then
-        rm ${GRAYLOG2_PID}
-        echo_success
+    pid=$(get_pid)
+
+    if [ -z ${pid} ]
+    then
+        echo "graylog2-server is not running"
     else
-        echo_failure
+        echo -n "Stopping graylog2-server ($pid) ..."
+
+        kill ${pid}
+        while [ -d /proc/${pid} ]; do sleep 1; done;
+
+        [ -f ${GRAYLOG2_PID} ] && rm ${GRAYLOG2_PID}
+        echo_success
     fi
+
     echo
 }
 

@@ -83,14 +83,19 @@ start() {
 }
 
 stop() {
-    PID=$(get_pid)
-    echo -n "Stopping graylog2-web-interface ($PID) ..."
+    pid=$(get_pid)
 
-    if kill $PID; then
-        rm ${GRAYLOG2_PID}
-        echo_success
+    if [ -z ${pid} ]
+    then
+        echo "graylog2-web-interface is not running"
     else
-        echo_failure
+        echo -n "Stopping graylog2-web-interface (${pid}) ..."
+
+        kill ${pid}
+        while [ -d /proc/${pid} ]; do sleep 1; done;
+
+        [ -f ${GRAYLOG2_PID} ] && rm ${GRAYLOG2_PID}
+        echo_success
     fi
 
     echo

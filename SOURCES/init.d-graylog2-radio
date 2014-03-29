@@ -69,14 +69,21 @@ start() {
 }
 
 stop() {
-    PID=`cat ${RADIO_PID}`
-    echo -n "Stopping graylog2-radio ($PID) ..."
-    if kill $PID; then
-        rm ${RADIO_PID}
-        echo_success
+    pid=$(get_pid)
+
+    if [ -z ${pid} ]
+    then
+        echo "graylog2-radio is not running"
     else
-	echo_failure
+        echo -n "Stopping graylog2-radio ($pid) ..."
+
+        kill ${pid}
+        while [ -d /proc/${pid} ]; do sleep 1; done;
+
+        [ -f ${RADIO_PID} ] && rm ${RADIO_PID}
+        echo_success
     fi
+
     echo
 }
 
