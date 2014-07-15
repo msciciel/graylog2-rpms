@@ -1,4 +1,4 @@
-Name:		graylog2-web
+Name:		graylog2-web-interface
 Version:	0.20.5
 Release:	0.1.BETA
 Summary:	A front-end web interface for the Graylog2 syslog receiver
@@ -96,7 +96,6 @@ rm -rf %{buildroot}
 %changelog
 * Tue Jul 15 2014 Krzysztof Pawlowski <msciciel@msciciel.eu> 0.20.5
 - Version bump to 0.20.5
-- Rename to graylog2-web
 
 * Sat Mar 29 2014 Corey Hammerton <corey.hammerton@gmail.com> 0.20.1-2
 - Waiting for clean shutdown in init script stop function before continuing
