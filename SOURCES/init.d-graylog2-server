@@ -29,7 +29,7 @@ XMLLINT_CMD=`which xmllint 2>/dev/null`
 
 GRAYLOG2CTL_DIR=`dirname "$GRAYLOG2CTL"`
 GRAYLOG2_SERVER_JAR=graylog2-server.jar
-GRAYLOG2_CONF=/etc/graylog2/graylog2.conf
+GRAYLOG2_CONF=/etc/graylog2/server/server.conf
 GRAYLOG2_PID=/tmp/graylog2.pid
 GRAYLOG2_USER=root
 GRAYLOG2_LOG_CONF=/etc/graylog2/server/log4j.xml
