@@ -1,6 +1,6 @@
 Name:		graylog2-web-interface
 Version:	0.20.5
-Release:	0.1.BETA
+Release:	0.2.BETA
 Summary:	A front-end web interface for the Graylog2 syslog receiver
 
 Group:		Monitoring/Logging
@@ -15,7 +15,9 @@ BuildArch:	noarch
 
 Requires:	chkconfig
 Requires:	libxml2
-Requires:   jre >= 1.6.0
+Requires:   jre >= 1.7.0
+
+Obsoletes:  graylog2-web
 
 %description
 

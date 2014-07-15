@@ -1,6 +1,6 @@
 Name:		graylog2-radio
 Version:	0.20.5
-Release:	0.1.BETA
+Release:	0.2.BETA
 Summary:	A message receiver front-end to expand on a graylog2 network.
 
 Group:		Monitoring/Logging
@@ -15,7 +15,7 @@ BuildArch:	noarch
 
 Requires:	chkconfig
 Requires:	libxml2
-Requires:	jre >= 1.6.0
+Requires:	jre >= 1.7.0
 
 %description
 
