@@ -1,6 +1,6 @@
 Name:		graylog2-radio
-Version:	0.20.0
-Release:	2
+Version:	0.20.5
+Release:	0.1.BETA
 Summary:	A message receiver front-end to expand on a graylog2 network.
 
 Group:		Monitoring/Logging
@@ -93,6 +93,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Jul 15 2014 Krzysztof Pawlowski <msciciel@msciciel.eu> 0.20.5
+- Version bump to 0.20.5
+
 * Sat Mar 29 2014 Corey Hammerton <corey.hammerton@gmail.com> 0.20.0-2
 - Waiting for clean shutdown in init script stop function before continuing
 - See https://github.com/Graylog2/graylog2-server/commits/020 for full changelog

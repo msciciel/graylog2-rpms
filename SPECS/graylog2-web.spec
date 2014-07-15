@@ -1,6 +1,6 @@
-Name:		graylog2-web-interface
-Version:	0.20.1
-Release:	2
+Name:		graylog2-web
+Version:	0.20.5
+Release:	0.1.BETA
 Summary:	A front-end web interface for the Graylog2 syslog receiver
 
 Group:		Monitoring/Logging
@@ -15,7 +15,7 @@ BuildArch:	noarch
 
 Requires:	chkconfig
 Requires:	libxml2
-Requires:       jre >= 1.6.0
+Requires:   jre >= 1.6.0
 
 %description
 
@@ -94,6 +94,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Jul 15 2014 Krzysztof Pawlowski <msciciel@msciciel.eu> 0.20.5
+- Version bump to 0.20.5
+- Rename to graylog2-web
+
 * Sat Mar 29 2014 Corey Hammerton <corey.hammerton@gmail.com> 0.20.1-2
 - Waiting for clean shutdown in init script stop function before continuing
 - See https://github.com/Graylog2/graylog2-web-interface/commits/0.20 for full changelog
