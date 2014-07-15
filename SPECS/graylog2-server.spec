@@ -1,6 +1,6 @@
 Name:		graylog2-server
 Version:	0.20.5
-Release:	0.2.BETA
+Release:	0.3.BETA
 Summary:	A syslog receiver and processing system
 
 Group:		Monitoring/Logging
@@ -40,7 +40,7 @@ rm -rf %{buildroot}
 # Config
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/graylog2/server
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/sysconfig
-%{__install} -p graylog2.conf.example %{buildroot}%{_sysconfdir}/graylog2/server/graylog2.conf
+%{__install} -p graylog2.conf.example %{buildroot}%{_sysconfdir}/graylog2/server/server.conf
 %{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/graylog2/server/log4j.xml
 %{__install} -p %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 
@@ -94,6 +94,7 @@ rm -rf %{buildroot}
 %changelog
 * Tue Jul 15 2014 Krzysztof Pawlowski <msciciel@msciciel.eu> 0.20.5
 - Version bump to 0.20.5
+- Change config file path to /etc/graylog2/server/server.conf
 
 * Sat Mar 29 2014 Corey Hammerton <corey.hammerton@gmail.com> 0.20.1-2
 - Waiting for clean shutdown in init script stop function before continuing

@@ -1,6 +1,6 @@
 Name:		graylog2-web-interface
 Version:	0.20.5
-Release:	0.2.BETA
+Release:	0.3.BETA
 Summary:	A front-end web interface for the Graylog2 syslog receiver
 
 Group:		Monitoring/Logging
@@ -43,7 +43,8 @@ rm -rf %{buildroot}
 # Configurations
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/graylog2/web-interface
 %{__install} -p %{SOURCE3} %{buildroot}%{_sysconfdir}/graylog2/web-interface/log4j.xml
-%{__install} -p conf/* %{buildroot}%{_sysconfdir}/graylog2/web-interface
+%{__install} -p conf/graylog2-web-interface.conf %{buildroot}%{_sysconfdir}/graylog2/web-interface/web-interface.conf
+%{__install} -p conf/application.conf %{buildroot}%{_sysconfdir}/graylog2/web-interface/application.conf
 
 # Logs and Run
 %{__mkdir} -p %{buildroot}%{_localstatedir}/log/graylog2
@@ -98,6 +99,7 @@ rm -rf %{buildroot}
 %changelog
 * Tue Jul 15 2014 Krzysztof Pawlowski <msciciel@msciciel.eu> 0.20.5
 - Version bump to 0.20.5
+- Change config file path to /etc/graylog2/web-interface/web-interface.conf
 
 * Sat Mar 29 2014 Corey Hammerton <corey.hammerton@gmail.com> 0.20.1-2
 - Waiting for clean shutdown in init script stop function before continuing
