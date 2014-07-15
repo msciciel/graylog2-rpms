@@ -1,6 +1,6 @@
 Name:		graylog2-radio
 Version:	0.20.5
-Release:	0.3.BETA
+Release:	0.4.BETA
 Summary:	A message receiver front-end to expand on a graylog2 network.
 
 Group:		Monitoring/Logging
@@ -61,7 +61,7 @@ rm -rf %{buildroot}
 
 
 %post
-/sbin/chkconfig --add graylog2-server
+/sbin/chkconfig --add graylog2-radio
 
 
 %preun
