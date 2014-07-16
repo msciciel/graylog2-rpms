@@ -8,6 +8,9 @@
 #               message collector
 #
 
+# Source function library.
+. /etc/rc.d/init.d/functions
+
 CMD=$1
 
 # resolve links - $0 may be a softlink
@@ -33,10 +36,12 @@ GRAYLOG2CTL_DIR=/opt/graylog2-web-interface
 GRAYLOG2_PID=/opt/graylog2-web-interface/RUNNING_PID
 GRAYLOG2_USER=root
 GRAYLOG2_LOG_CONF=/etc/graylog2/web-interface/log4j.xml
-ADDITIONAL_JAVA_OPTS="-XX:ReservedCodeCacheSize=128m"
 
 lib_dir="${GRAYLOG2CTL_DIR}/lib"
 CLASSPATH="${lib_dir}/*"
+
+ADDITIONAL_JAVA_OPTS="-XX:ReservedCodeCacheSize=128m -Duser.dir=/opt/graylog2-web-interface \
+    -Dpidfile.path=${GRAYLOG2_PID} -cp \"$CLASSPATH\" play.core.server.NettyServer"
 
 MIN_MEM=1024m
 MAX_MEM=1024m
@@ -65,11 +70,11 @@ start() {
         ADDITIONAL_JAVA_OPTS="${ADDITIONAL_JAVA_OPTS} -Dlogger.file=${GRAYLOG2_LOG_CONF}"
     fi
 
-    su -s /bin/sh $GRAYLOG2_USER -c "${JAVA_CMD} -Xms${MIN_MEM} -Xmx${MAX_MEM} \
-                                     -XX:MaxPermSize=${MAX_PERM_SIZE} ${ADDITIONAL_JAVA_OPTS} \
-                                     -Duser.dir=/opt/graylog2-web-interface \
-                                     -Dpidfile.path=${GRAYLOG2_PID} \
-                                     -cp \"$CLASSPATH\" play.core.server.NettyServer >> /dev/null 2>&1 &"
+    ADDITIONAL_JAVA_OPTS="${ADDITIONAL_JAVA_OPTS} -Xms${MIN_MEM} -Xmx${MAX_MEM} -XX:MaxPermSize=${MAX_PERM_SIZE}"
+
+    daemon --check ${JAVA_CMD} --pidfile=${GRAYLOG2_PID} --user=${GRAYLOG2_USER} \
+        ${JAVA_CMD} -jar ${GRAYLOG2_SERVER_JAR} -p ${GRAYLOG2_PID} -f ${GRAYLOG2_CONF} ${ADDITIONAL_JAVA_OPTS}
+
     RETVAL=$?
 
     if [ $RETVAL -eq 0 ]

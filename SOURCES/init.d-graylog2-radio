@@ -7,6 +7,9 @@
 # description:  This daemon processes messages in front of a graylog2-server cluster
 #
 
+# Source function library.
+. /etc/rc.d/init.d/functions
+
 CMD=$1
 # resolve links - $0 may be a softlink
 RADIOCTL="$0"
@@ -52,10 +55,9 @@ start() {
         ADDITIONAL_JAVA_OPTS="${ADDITIONAL_JAVA_OPTS} -Dlog4j.configuration=file://${RADIO_LOG_CONF}"
     fi
 
-    su -s /bin/bash ${RADIO_USER} -c "${JAVA_CMD} ${ADDITIONAL_JAVA_OPTS} -jar \
-                                      ${RADIO_JAR} \
-                                      -f ${RADIO_CONF} \
-                                      -p ${RADIO_PID} >> /dev/null 2>&1 &"
+    daemon --check ${JAVA_CMD} --pidfile=${RADIO_PID} --user=${RADIO_USER} \
+        ${JAVA_CMD} -jar ${RADIO_JAR} -p ${RADIO_PID} -f {RADIO_CONF} ${ADDITIONAL_JAVA_OPTS}
+
     RETVAL=$?
 
     if [ $RETVAL -eq 0 ]

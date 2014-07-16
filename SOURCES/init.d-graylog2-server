@@ -7,6 +7,9 @@
 # description:  This daemon listens for syslog and GELF messages and stores them in mongodb
 #
 
+# Source function library.
+. /etc/rc.d/init.d/functions
+
 CMD=$1
 # resolve links - $0 may be a softlink
 GRAYLOG2CTL="$0"
@@ -61,10 +64,9 @@ start() {
         ADDITIONAL_JAVA_OPTS="${ADDITIONAL_JAVA_OPTS} -Dlog4j.configuration=file://${GRAYLOG2_LOG_CONF}"
     fi
 
-    su -s /bin/sh ${GRAYLOG2_USER} -c "${JAVA_CMD} ${ADDITIONAL_JAVA_OPTS} -jar \
-                                       ${GRAYLOG2_SERVER_JAR} \
-                                       -f ${GRAYLOG2_CONF} \
-                                       -p ${GRAYLOG2_PID} >> /dev/null 2>&1 &"
+    daemon --check ${JAVA_CMD} --pidfile=${GRAYLOG2_PID} --user=${GRAYLOG2_USER} \
+        ${JAVA_CMD} -jar ${GRAYLOG2_SERVER_JAR} -p ${GRAYLOG2_PID} -f ${GRAYLOG2_CONF} ${ADDITIONAL_JAVA_OPTS}
+
     RETVAL=$?
 
     if [ $RETVAL -eq 0 ]
