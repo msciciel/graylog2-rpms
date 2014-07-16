@@ -2,7 +2,7 @@
 
 Name:		graylog2-server
 Version:	0.20.5
-Release:	0.%{release}
+Release:	1
 Summary:	A syslog receiver and processing system
 
 Group:		Monitoring/Logging
