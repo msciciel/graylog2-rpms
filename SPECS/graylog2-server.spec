@@ -1,6 +1,8 @@
+%define release %(date +%Y%m%d%H%M).rev
+
 Name:		graylog2-server
 Version:	0.20.5
-Release:	0.6.BETA
+Release:	0.%{release}
 Summary:	A syslog receiver and processing system
 
 Group:		Monitoring/Logging

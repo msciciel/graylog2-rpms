@@ -65,7 +65,7 @@ start() {
     fi
 
     daemon --check ${JAVA_CMD} --pidfile=${GRAYLOG2_PID} --user=${GRAYLOG2_USER} \
-        ${JAVA_CMD} -jar ${GRAYLOG2_SERVER_JAR} -p ${GRAYLOG2_PID} -f ${GRAYLOG2_CONF} ${ADDITIONAL_JAVA_OPTS}
+        ${JAVA_CMD} ${ADDITIONAL_JAVA_OPTS} -jar ${GRAYLOG2_SERVER_JAR} -p ${GRAYLOG2_PID} -f ${GRAYLOG2_CONF} &
 
     RETVAL=$?
 

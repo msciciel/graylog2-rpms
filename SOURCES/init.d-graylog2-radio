@@ -56,7 +56,7 @@ start() {
     fi
 
     daemon --check ${JAVA_CMD} --pidfile=${RADIO_PID} --user=${RADIO_USER} \
-        ${JAVA_CMD} -jar ${RADIO_JAR} -p ${RADIO_PID} -f {RADIO_CONF} ${ADDITIONAL_JAVA_OPTS}
+        ${JAVA_CMD} -jar ${RADIO_JAR} -p ${RADIO_PID} -f {RADIO_CONF} ${ADDITIONAL_JAVA_OPTS} &
 
     RETVAL=$?
 
