@@ -3,7 +3,7 @@
 #
 # graylog2-radio:   graylog2 message receiver and processor
 #
-# chkconfig: 345 98 02
+# chkconfig: - 99 01
 # description:  This daemon processes messages in front of a graylog2-server cluster
 #
 

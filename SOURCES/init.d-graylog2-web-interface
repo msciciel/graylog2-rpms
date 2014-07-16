@@ -3,7 +3,7 @@
 #
 # graylog2-web-interface:   Web interface for the graylog2 message collector
 #
-# chkconfig: - 98 02
+# chkconfig: - 99 01
 # description:  This daemon provides a front-end web interface for the Graylog2 
 #               message collector
 #
