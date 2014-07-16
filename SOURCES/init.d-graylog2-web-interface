@@ -47,12 +47,13 @@ GRAYLOG2CTL_DIR=/opt/graylog2-web-interface
 GRAYLOG2_PID=/opt/graylog2-web-interface/RUNNING_PID
 GRAYLOG2_USER=root
 GRAYLOG2_LOG_CONF=/etc/graylog2/web-interface/log4j.xml
+GRAYLOG2_CONF=/etc/graylog2/web-interface/web-interface.conf
 
 lib_dir="${GRAYLOG2CTL_DIR}/lib"
 CLASSPATH="${lib_dir}/*"
 
-ADDITIONAL_JAVA_OPTS="-XX:ReservedCodeCacheSize=128m -Duser.dir=/opt/graylog2-web-interface \
-    -Dpidfile.path=${GRAYLOG2_PID} -cp \"$CLASSPATH\" play.core.server.NettyServer"
+ADDITIONAL_JAVA_OPTS="${ADDITIONAL_JAVA_OPTS} -XX:ReservedCodeCacheSize=128m -Duser.dir=/opt/graylog2-web-interface \
+    -Dpidfile.path=${GRAYLOG2_PID}"
 
 MIN_MEM=1024m
 MAX_MEM=1024m
@@ -81,10 +82,16 @@ start() {
         ADDITIONAL_JAVA_OPTS="${ADDITIONAL_JAVA_OPTS} -Dlogger.file=${GRAYLOG2_LOG_CONF}"
     fi
 
+    if [[ -f ${GRAYLOG2_CONF} ]]
+    then
+        ADDITIONAL_JAVA_OPTS="${ADDITIONAL_JAVA_OPTS} -Dconfig.file=${GRAYLOG2_CONF}"
+    fi
+
     ADDITIONAL_JAVA_OPTS="${ADDITIONAL_JAVA_OPTS} -Xms${MIN_MEM} -Xmx${MAX_MEM} -XX:MaxPermSize=${MAX_PERM_SIZE}"
 
     daemon --check ${JAVA_CMD} --pidfile=${GRAYLOG2_PID} --user=${GRAYLOG2_USER} \
-        ${JAVA_CMD} -jar ${GRAYLOG2_SERVER_JAR} -p ${GRAYLOG2_PID} -f ${GRAYLOG2_CONF} ${ADDITIONAL_JAVA_OPTS} &
+        ${JAVA_CMD} ${ADDITIONAL_JAVA_OPTS} \
+	-cp \"$CLASSPATH\" play.core.server.NettyServer &
 
     RETVAL=$?
 
