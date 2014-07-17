@@ -48,6 +48,7 @@ GRAYLOG2_PID=/opt/graylog2-web-interface/RUNNING_PID
 GRAYLOG2_USER=root
 GRAYLOG2_LOG_CONF=/etc/graylog2/web-interface/log4j.xml
 GRAYLOG2_CONF=/etc/graylog2/web-interface/web-interface.conf
+GRAYLOG2_CMD=/opt/graylog2-web-interface/bin/graylog2-web-interface
 
 lib_dir="${GRAYLOG2CTL_DIR}/lib"
 CLASSPATH="${lib_dir}/*"
@@ -89,9 +90,8 @@ start() {
 
     ADDITIONAL_JAVA_OPTS="${ADDITIONAL_JAVA_OPTS} -Xms${MIN_MEM} -Xmx${MAX_MEM} -XX:MaxPermSize=${MAX_PERM_SIZE}"
 
-    daemon --check ${JAVA_CMD} --pidfile=${GRAYLOG2_PID} --user=${GRAYLOG2_USER} \
-        ${JAVA_CMD} ${ADDITIONAL_JAVA_OPTS} \
-	-cp \"$CLASSPATH\" play.core.server.NettyServer &
+    daemon --check ${GRAYLOG2_CMD} --pidfile=${GRAYLOG2_PID} --user=${GRAYLOG2_USER} \
+        ${GRAYLOG2_CMD} ${ADDITIONAL_JAVA_OPTS} &
 
     RETVAL=$?
 

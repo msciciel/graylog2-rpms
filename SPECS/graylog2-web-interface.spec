@@ -1,8 +1,11 @@
 %define release %(date +%Y%m%d%H%M).rev
+%define debug_package %{nil}
+%define base_install_dir %{_javadir}{%name}
+%define __jar_repack %{nil}
 
 Name:		graylog2-web-interface
 Version:	0.20.5
-Release:	1
+Release:	1.1rc
 Summary:	A front-end web interface for the Graylog2 syslog receiver
 
 Group:		Monitoring/Logging
@@ -15,9 +18,16 @@ Source3:	log4j-%{name}.xml
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
+
 Requires:	chkconfig
 Requires:	libxml2
 Requires:   jre >= 1.7.0
+Requires:   jpackage-utils
+
+
+Requires(post): chkconfig initscripts
+Requires(pre): chkconfig initscripts
+Requires(pre): shadow-utils
 
 Obsoletes:  graylog2-web
 
@@ -61,7 +71,8 @@ rm -rf %{buildroot}
 %{__install} -p lib/*.jar %{buildroot}/opt/%{name}/lib
 
 cp -pR share/ %{buildroot}/opt/%{name}/
-
+cp -pR bin/ %{buildroot}/opt/%{name}/
+cp -pR lib/ %{buildroot}/opt/%{name}/
 
 %post
 /sbin/chkconfig --add graylog2-web-interface
