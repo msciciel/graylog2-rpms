@@ -105,6 +105,8 @@ rm -rf %{buildroot}
 %dir %{_localstatedir}/run/graylog2
 %dir %{_localstatedir}/log/graylog2
 
+%attr(0755,root,root) /opt/%{name}/bin/*
+
 # Install Root
 /opt/%{name}/*
 
