@@ -104,22 +104,12 @@ start() {
 }
 
 stop() {
-    pid=$(get_pid)
-
-    if [ -z ${pid} ]
-    then
-        echo "graylog2-web-interface is not running"
-    else
-        echo -n "Stopping graylog2-web-interface (${pid}) ..."
-
-        kill ${pid}
-        while [ -d /proc/${pid} ]; do sleep 1; done;
-
-        [ -f ${GRAYLOG2_PID} ] && rm ${GRAYLOG2_PID}
-        echo_success
-    fi
-
+    echo -n $"Stopping graylog2-web-interface: "
+    killproc -p ${GRAYLOG2_PID} -d 10 $GRAYLOG2_CMD
+    RETVAL=$?
     echo
+    [ $RETVAL = 0 ] && rm -f ${GRAYLOG2_PID} && rm -f ${LOCKFILE}
+    return $RETVAL
 }
 
 restart() {
