@@ -7,8 +7,4 @@ GRAYLOG2_CONF=/etc/graylog2/web-interface/web-interface.conf
 lib_dir=${GRAYLOG2CTL_DIR}/lib
 CLASSPATH="${lib_dir}/*"
 
-#MIN_MEM=256m
-#MAX_MEM=1024m
-#MAX_PERM_SIZE=256m
-
 ADDITIONAL_JAVA_OPTS=""

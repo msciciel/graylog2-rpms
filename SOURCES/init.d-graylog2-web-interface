@@ -88,8 +88,6 @@ start() {
         ADDITIONAL_JAVA_OPTS="${ADDITIONAL_JAVA_OPTS} -Dconfig.file=${GRAYLOG2_CONF}"
     fi
 
-    ADDITIONAL_JAVA_OPTS="${ADDITIONAL_JAVA_OPTS} -Xms${MIN_MEM} -Xmx${MAX_MEM} -XX:MaxPermSize=${MAX_PERM_SIZE}"
-
     daemon --check ${GRAYLOG2_CMD} --pidfile=${GRAYLOG2_PID} --user=${GRAYLOG2_USER} \
         ${GRAYLOG2_CMD} ${ADDITIONAL_JAVA_OPTS} &
 
