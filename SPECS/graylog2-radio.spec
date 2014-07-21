@@ -1,7 +1,7 @@
 %define release %(date +%Y%m%d%H%M).rev
 
 Name:		graylog2-radio
-Version:	0.20.5
+Version:	0.20.6
 Release:	1
 Summary:	A message receiver front-end to expand on a graylog2 network.
 

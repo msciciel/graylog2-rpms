@@ -4,8 +4,8 @@
 %define __jar_repack %{nil}
 
 Name:		graylog2-web-interface
-Version:	0.20.5
-Release:	3
+Version:	0.20.6
+Release:	1
 Summary:	A front-end web interface for the Graylog2 syslog receiver
 
 Group:		Monitoring/Logging

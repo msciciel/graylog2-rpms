@@ -1,7 +1,7 @@
 %define release %(date +%Y%m%d%H%M).rev
 
 Name:		graylog2-server
-Version:	0.20.5
+Version:	0.20.6
 Release:	1
 Summary:	A syslog receiver and processing system
 
